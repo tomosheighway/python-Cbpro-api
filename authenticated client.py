@@ -36,7 +36,7 @@ buy_amount = 0.2
 
  
 
-#basic trading off a price automated to check every 10 seconds 
+#basic trading off a price automated to check every 5 seconds 
 while True:
     price = float(auth_client.get_product_ticker(product_id="BTC-GBP")['price'])
     if price <= buy_price:
@@ -47,4 +47,4 @@ while True:
         auth_client.sell(size= buy_amount, order_type="market" , product_id="BTC-GBP")
     else:
         print("nothing... price at:", price)
-    time.sleep(10)
+    time.sleep(5)
