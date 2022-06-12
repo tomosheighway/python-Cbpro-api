@@ -1,5 +1,5 @@
 import websocket , json 
-import dateutil.parser
+#import dateutil.parser
 star_trades =[]
 
 def on_open(ws):
@@ -27,13 +27,20 @@ def on_msg(ws,msg):
     best_bid = float(current_tick['best_bid'])
     best_ask = float(current_tick['best_ask'])
     spread = round(best_ask-best_bid, 3) 
-    
+
+    date_time = current_tick['time'].split("T", 1)  #split the date and time 
+    date = date_time[0]
+    time = date_time[1][0:8]    #slice to give time as 00:00:00
+   
+
     # if the difference between bid and ask is greater than 4 star the tick. 
     if spread > 4:      
         big_gap = "*"
 
         # add trade to star trades - Todo : add trade time. 
         star_trades.append({
+            "Date": date,
+            "Time": time, 
             "price": current_price,
             "spread": spread
         })
@@ -42,10 +49,10 @@ def on_msg(ws,msg):
     else: 
         big_gap = " "
 
-    print("Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap)
+    print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap )
    # print(json.loads(msg))
 
-    tick_datetime_object = dateutil.parser.parse(current_tick['time'])
+    #tick_datetime_object = dateutil.parser.parse(current_tick['time'])
 
 socket = "wss://ws-feed.pro.coinbase.com"
 ws = websocket.WebSocketApp(socket, on_open=on_open , on_message=on_msg)
