@@ -1,6 +1,7 @@
-from tokenize import Double
 import websocket , json 
 import dateutil.parser
+star_trades =[]
+
 def on_open(ws):
     print("opened connection")
 
@@ -19,16 +20,29 @@ def on_open(ws):
     ws.send(json.dumps(subscribe_message))
 
 def on_msg(ws,msg):
-
-    current_tick = json.loads(msg)
-    current_price = current_tick['price']
-    product_id = current_tick['product_id']
-    best_bid = current_tick['best_bid']
-    best_ask = current_tick['best_ask']
-
     
+    current_tick = json.loads(msg)
+    current_price = float(current_tick['price'])
+    product_id = current_tick['product_id']
+    best_bid = float(current_tick['best_bid'])
+    best_ask = float(current_tick['best_ask'])
+    spread = round(best_ask-best_bid, 3) 
+    
+    # if the difference between bid and ask is greater than 4 star the tick. 
+    if spread > 4:      
+        big_gap = "*"
 
-    print(product_id,current_price , best_bid , best_ask)
+        # add trade to star trades - Todo : add trade time. 
+        star_trades.append({
+            "price": current_price,
+            "spread": spread
+        })
+        print(star_trades)
+        
+    else: 
+        big_gap = " "
+
+    print("Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap)
    # print(json.loads(msg))
 
     tick_datetime_object = dateutil.parser.parse(current_tick['time'])
