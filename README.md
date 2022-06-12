@@ -1,5 +1,6 @@
 # python-Cbpro-api
-first experience using the coinbase pro api. 
-basic program to test out the functionality and make trades based of preset price ranges 
+First experience using the coinbase pro api. 
 
-keys are stored in text file and have been removed for security reasons 
+Basic program to test out the functionality and make trades based of preset price ranges 
+
+Keys are stored in text file and have been removed for security reasons 
