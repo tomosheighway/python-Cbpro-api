@@ -11,7 +11,8 @@ def on_open(ws):
             {
                 "name":"ticker",
                 "product_ids":[
-                    "BTC-USD"
+                    "BTC-USD"  
+                    #,"ETH-USD"
                 ]
 
             }
@@ -48,6 +49,13 @@ def on_msg(ws,msg):
         
     else: 
         big_gap = " "
+
+#TODO  identify if tick in the same minute and take the high / low 
+        # store previous tick , compare to current tick 
+        # if current_time[0:5] = previous_time[0:5]:   #format 00:00 
+            #if current_price > previous_price:
+                #min_high = current_price
+            
 
     print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap )
    # print(json.loads(msg))
