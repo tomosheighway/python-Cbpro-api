@@ -28,6 +28,8 @@ print(auth_client.cancel_all(product_id="BTC-GBP"))
 #getting orders
 print(auth_client.get_orders(product_id="BTC-ETH"))
 
+#print(auth_client.get_account)
+
 import time 
 sell_price = 300000
 sell_amount= 0.3
