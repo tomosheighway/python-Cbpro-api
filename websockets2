@@ -4,7 +4,7 @@ import websocket , json
 star_trades =[]  #used to store ticks of interest 
 current_tick= None
 previous_tick = None
-
+min_high = 0 
 
 def on_open(ws):
     print("opened connection")
@@ -39,7 +39,7 @@ def on_msg(ws,msg):
     date_time = current_tick['time'].split("T", 1)  #split the date and time 
     date = date_time[0]
     time = date_time[1][0:8]    #slice to give time as 00:00:00
-    min_high = 0
+    
     #previous tick values
     
 
@@ -67,20 +67,23 @@ def on_msg(ws,msg):
 
 #TODO  identify if tick in the same minute and take the high / low 
         # store previous tick , compare to current tick 
-    if time[0:5] == last_time[0:5]:   #if ticks are not in the same minute print current tick
+    if time[0:5] == last_time[0:5]:   #if ticks are not in the same minute 
         #min_high = current_price 
         #print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap )  
-        
-        if current_price > float(previous_tick['price']):  #this should be if > min price
-                min_high = current_price
+        #min_high= 0
+        global min_high
+
+        if current_price > float(previous_tick['price']) and current_price > min_high:  #this should be if > min price 
+                min_high= current_price
                 print("new minute high ", min_high)
-        else: 
+        #else: 
                 #min_high = float(previous_tick['price'])
-            print("not new min high")
+            
+            #print("not new min high")
         #print(min_high)
     else:
 
-        print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap )
+        print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap  , "minute high value:", min_high)
         test = "do nothing"
             #if current_price > previous_price:
                 #min_high = current_price
