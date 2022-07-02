@@ -83,6 +83,7 @@ def on_msg(ws,msg):
         #print(min_high)
     else:
 
+        min_high = 0
         print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap  , "minute high value:", min_high)
         test = "do nothing"
             #if current_price > previous_price:
