@@ -64,20 +64,17 @@ def on_msg(ws,msg):
     else: 
         big_gap = " "
 
-#TODO  identify if tick in the same minute and take the high / low 
-        # store previous tick , compare to current tick 
-
+# create candlestick data for each minute
     if time[0:5] == last_time[0:5]:   #if ticks are not in the same minute 
         global min_high, min_low
-        #sets min_high variable to the highest price that minute
-        if current_price > min_high:  
-                min_high= current_price
-                #print("new minute high ", min_high) 
+        
+        if current_price > min_high:        #sets min_high variable to the highest price that minute
+            min_high= current_price
+            #print("new minute high ", min_high) 
         if current_price < min_low:
             min_low= current_price
             #print("New minute low: ", min_low)
-    else:
-
+    else: # new minute 
         min_candles.append({
             "Date": date,
             "Time": time, 
@@ -85,10 +82,10 @@ def on_msg(ws,msg):
             "high": min_high,
             "live": current_price
         })
-        #print(date,time,"       Last minute high value: ", min_high , "         Last minute low value: ", min_low)
-        #print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap)
+        #test #print(date,time,"       Last minute high value: ", min_high , "         Last minute low value: ", min_low)
+        #test #print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap)
         print(min_candles)
-        min_high = 0
+        min_high = 0                #reset values 
         min_low = 999999999
     
       
