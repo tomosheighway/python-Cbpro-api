@@ -67,26 +67,17 @@ def on_msg(ws,msg):
 
 #TODO  identify if tick in the same minute and take the high / low 
         # store previous tick , compare to current tick 
-    if time[0:5] == last_time[0:5]:   #if ticks are not in the same minute 
-        #min_high = current_price 
-        #print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap )  
-        #min_high= 0
-        global min_high
 
-        if current_price > float(previous_tick['price']) and current_price > min_high:  #this should be if > min price 
+    if time[0:5] == last_time[0:5]:   #if ticks are not in the same minute 
+        global min_high
+        #sets min_high variable to the highest price that minute
+        if current_price > min_high:  
                 min_high= current_price
-                print("new minute high ", min_high)
-        #else: 
-                #min_high = float(previous_tick['price'])
-            
-            #print("not new min high")
-        #print(min_high)
+                print("new minute high ", min_high) 
     else:
         print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap  , "last minute high value:", min_high)
         min_high = 0
        
-            #if current_price > previous_price:
-                #min_high = current_price
 
             
     
