@@ -5,6 +5,8 @@ star_trades =[]  #used to store ticks of interest
 current_tick= None
 previous_tick = None
 min_high = 0 
+min_low = 999999999
+min_candles =[]
 
 def on_open(ws):
     print("opened connection")
@@ -41,9 +43,6 @@ def on_msg(ws,msg):
     time = date_time[1][0:8]    #slice to give time as 00:00:00
     
     #previous tick values
-    
-
-
     last_date_time = previous_tick['time'].split("T", 1)  #split the date and time 
     #last_date = last_date_time[0]
     last_time = last_date_time[1][0:8]
@@ -69,15 +68,30 @@ def on_msg(ws,msg):
         # store previous tick , compare to current tick 
 
     if time[0:5] == last_time[0:5]:   #if ticks are not in the same minute 
-        global min_high
+        global min_high, min_low
         #sets min_high variable to the highest price that minute
         if current_price > min_high:  
                 min_high= current_price
-                print("new minute high ", min_high) 
+                #print("new minute high ", min_high) 
+        if current_price < min_low:
+            min_low= current_price
+            #print("New minute low: ", min_low)
     else:
-        print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap  , "last minute high value:", min_high)
+
+        min_candles.append({
+            "Date": date,
+            "Time": time, 
+            "low" : min_low, 
+            "high": min_high,
+            "live": current_price
+        })
+        #print(date,time,"       Last minute high value: ", min_high , "         Last minute low value: ", min_low)
+        #print(date,time, "        Pair:",product_id, "    Trading price:",current_price , "   Best bid:", best_bid , "     Best ask:",best_ask , "     Spread:", spread , big_gap)
+        print(min_candles)
         min_high = 0
-       
+        min_low = 999999999
+    
+      
 
             
     
