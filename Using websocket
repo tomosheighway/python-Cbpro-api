@@ -78,6 +78,7 @@ def on_msg(ws,msg):
         min_candles.append({
             "Date": date,
             "Time": time, 
+            "ID": product_id,
             "low" : min_low, 
             "high": min_high,
             "live": current_price
